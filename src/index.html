@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/main.scss">
+    </style>
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <title>Document</title>
+
+</head>
+
+<body>
+
+
+    <div class="panel graph-panel is-info">
+        <p class="panel-heading">graph-tool</p>
+        <div class="panel-block top-menu">
+            <button class="button is-info is-outlined" onclick="addNode()">
+                <span class="icon">
+                    <i class="fas fa-plus fa-lg"></i>
+                </span>
+            </button>
+
+            <button class="button is-info is-outlined" onclick="clearStage()">
+                <span class="icon">
+                    <i class="fas fa-trash-alt fa-lg"></i>
+                </span>
+            </button>
+        </div>
+        <div id="container" class="panel-block"></div>
+
+    </div>
+
+    <script src="./js/index.js"></script>
+</body>
+
+</html>

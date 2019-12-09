@@ -1,0 +1,33 @@
+* {
+    margin: 0px;
+    padding:0px;
+}
+
+
+.graph-panel{
+    max-width: 700px;
+    // height: 700px;
+    margin:auto;
+    margin-top: 20px;
+}
+
+.top-menu button {
+    margin:10px; 
+}
+
+#container {
+    padding:0px;
+}
+
+.nodeInput{
+    text-align: center;
+    background-color: transparent;
+    border:none;
+    /* border:1px solid red; */
+}
+
+
+
+.nodeInput:focus{
+    outline: none;
+}
