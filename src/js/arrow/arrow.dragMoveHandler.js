@@ -17,6 +17,11 @@ export function arrowDragMoveHandler(shared, arrow, nodeGroup) {
         const nodeAttr = nodeGroup.attrs;
         const lenArrowPoints = arrow.attrs.points.length;
 
+        // move weight label, only dependent on the last two coordinates
+        let differenceX = pos.x - arrow.attrs.points[lenArrowPoints - 2];
+        let differenceY = pos.y - arrow.attrs.points[lenArrowPoints - 1];
+        moveWeightLblOfArrow(shared, arrow, differenceX, differenceY);
+
         if (lenArrowPoints == 4){
             // no waypoints -> arrow is one straight line, change position on nodeGroup
             let startx;
@@ -47,11 +52,6 @@ export function arrowDragMoveHandler(shared, arrow, nodeGroup) {
             arrow.attrs.points[lenArrowPoints - 2] = pos.x;
             arrow.attrs.points[lenArrowPoints - 1] = pos.y;
         }
-
-        // move weight label, only dependent on the last two coordinates
-        let differenceX = pos.x - arrow.attrs.points[lenArrowPoints - 2];
-        let differenceY = pos.y - arrow.attrs.points[lenArrowPoints - 1];
-        moveWeightLblOfArrow(shared, arrow, differenceX, differenceY);
 
         arrow.attrs.x = 0;
         arrow.attrs.y = 0;
