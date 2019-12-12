@@ -21,9 +21,17 @@ export function nodeGroupDragmoveHandler(shared) {
         let startArrows = shared.findAllArrowsThatStartFromNode(this._id);
         let endArrows = shared.findAllArrowsThatEndAtNode(this._id);
 
+        // also add unconnected start arrows
+        if (shared.arrowStartNodes.length > 0) {
+            let unconnectedArrows = shared.arrowStartNodes
+                .filter(a => a.nodeId == this._id)
+                .map(a => a.arrowId);
+            startArrows = Array.from(new Set(startArrows.concat(...unconnectedArrows)));
+        }
+
         // do nothing if there are no arrows
         if (startArrows.length == 0 && endArrows.length == 0) {
-            return
+            return;
         }
 
         startArrows.forEach(id => {

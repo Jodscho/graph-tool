@@ -23,6 +23,8 @@ export function generateArrow(shared, rect) {
         } 
     });
 
+    shared.arrowStartNodes.push({ nodeId: rect._id, arrowId: arrow._id});
+
     shared.arrowLayer.add(arrow);
     shared.arrowLayer.draw();
 }

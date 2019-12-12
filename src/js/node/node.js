@@ -59,9 +59,64 @@ function dragEndHandler() {
 
 function nodeClickHandler(shared) {
     return function () {
+        if (window.event.altKey){
+            deleteNode(shared, this);
+        }
         if (window.event.ctrlKey) {
             generateArrow(shared, this);
         }
     }
+}
+
+function deleteNode(shared, nodeGroup){
+    // delete node
+    nodeGroup.destroy();
+
+    // delete duration label
+    let id = shared.durations
+        .find(e => e.nodeId = nodeGroup._id).durationId;
+    shared.layer.find('Text').filter(e => e._id == id)[0].destroy();
+
+    // delete all arrow connections
+    let startArrows = shared.findAllArrowsThatStartFromNode(nodeGroup._id);
+    let endArrows = shared.findAllArrowsThatEndAtNode(nodeGroup._id);
+
+    // also add unconnected start arrows
+    if (shared.arrowStartNodes.length > 0) {
+        let unconnectedArrows = shared.arrowStartNodes
+            .filter(a => a.nodeId == nodeGroup._id)
+            .map(a => a.arrowId);
+        startArrows = Array.from(new Set(startArrows.concat(...unconnectedArrows)));
+    }
+    let all = startArrows.concat(endArrows);
+    all.forEach(arrowId => {
+
+        // clean up node connections 
+        shared.nodeConnections.forEach(con => {
+            // is this arrow somewhere in this con?
+            let existIdx = con.connectedTo.findIndex(to => to.arrowId == arrowId);
+            if (existIdx != -1){ 
+                con.connectedTo.splice(existIdx, 1);
+            }
+        });
+
+        shared.arrowLayer.find('Arrow').filter(e => e._id == arrowId)[0].destroy();
+        // find arrow weights
+        let arrowWeightIdx = shared.arrowWeights.findIndex(e => e.arrowId == arrowId);
+        if (arrowWeightIdx != -1) {
+            let weightId = shared.arrowWeights[arrowWeightIdx].weight.id;
+            shared.arrowLayer.find('Label').filter(e => e._id == weightId)[0].destroy();
+            shared.arrowWeights.splice(arrowWeightIdx, 1);
+        }
+
+
+    });
+
+
+    shared.layer.draw();
+    shared.arrowLayer.draw();
+
+
+
 }
 

@@ -8,6 +8,7 @@ export default class SharedUtils {
         this.nodeConnections = [];
         this.arrowWeights = [];
         this.durations = [];
+        this.arrowStartNodes = [];
     }
 
 
