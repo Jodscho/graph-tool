@@ -13,18 +13,31 @@ import Konva from 'konva';
 export function arrowDblClickHandler(shared, arrow) {
     return function () {
 
+        if (shared.openInputFields.findIndex(e => e == arrow._id) != -1) {
+            return;
+        }
+
+
         let arrowWeight = shared.arrowWeights.find(a => a.arrowId == arrow._id);
         let lbl;
+        let pos;
 
         if (arrowWeight.weight.id != undefined) {
             lbl = shared.arrowLayer.find('Label').filter(e => e._id == arrowWeight.weight.id)[0];
+            pos = lbl.getAbsolutePosition();
             lbl.hide();
+            shared.arrowLayer.draw();
         }
 
-        let pos = shared.stage.getPointerPosition();
+        if (!pos){
+            pos = shared.stage.getPointerPosition();
+        }
+
 
         let val = (arrowWeight.weight.id) ? arrowWeight.weight.number : '';
-        let input = createInputField(shared, val, pos.x, pos.y);
+        let input = createInputField(shared, val, pos.x, pos.y + 35);
+        shared.openInputFields.push(arrow._id);
+
 
         input.addEventListener('keydown', function (e) {
             // hide on enter
@@ -63,6 +76,10 @@ export function arrowDblClickHandler(shared, arrow) {
                 lbl.show();
                 // change entry
                 arrowWeight.weight.number = input.value;
+            }
+            let i = shared.openInputFields.findIndex(e => e == arrow._id);
+            if (i != -1) {
+                shared.openInputFields.splice(i, 1);
             }
 
             shared.arrowLayer.draw();

@@ -19,7 +19,7 @@ export function arrowDragEndhandler(shared, arrow, startNode) {
         let shape = shared.layer.getIntersection(pos);
 
         // there is no intersection between an arrow and a node
-        if (!shape) {
+        if (!shape || shape.parent.getClassName() == 'Layer') {
             // check if the connection to a node has to be canceld
             let allConnectedTo = shared.nodeConnections
                 .map(c => c.connectedTo)
@@ -36,17 +36,12 @@ export function arrowDragEndhandler(shared, arrow, startNode) {
 
             return;
         }
-
-        // found potential node
+        
         let nodeGroup = shape.parent;
 
         let foundNodes = shared.nodeConnections
             .filter(n => n.name == nodeGroup._id);
 
-        if (foundNodes > 1) {
-            console.error("found more than one node");
-            return;
-        }
 
         let connections = foundNodes[0].connectedTo.filter(n => n.nodeId == startNode._id);
 
