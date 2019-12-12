@@ -24,8 +24,10 @@ function main() {
 
     shared.layer = new Konva.Layer();
     shared.arrowLayer = new Konva.Layer();
+    shared.durationLayer = new Konva.Layer();
 
     shared.stage.add(shared.layer);
+    shared.stage.add(shared.durationLayer);
     shared.stage.add(shared.arrowLayer);
 
 }

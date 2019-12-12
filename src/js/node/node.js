@@ -1,4 +1,5 @@
-import { generateArrow } from '../arrow/arrow'
+import { generateArrow } from '../arrow/arrow';
+import { generationDurationLbl } from '../duration/duration';
 import { NODE_HEIGHT, NODE_WIDTH } from '../shared';
 import { nodeDblClickHandler} from './node.dblClickHandler'
 import { nodeGroupDragmoveHandler} from './node.dragMoveHandler';
@@ -14,9 +15,8 @@ function createNode(shared) {
         strokeWidth: 2,
         draggable: true
     });
-
     var textNode = new Konva.Text({
-        text: shared.countNodes,
+        text: shared.countNodes + '',
         align: 'center',
         width: NODE_WIDTH,
         height: NODE_HEIGHT,
@@ -25,14 +25,13 @@ function createNode(shared) {
     });
 
     let group = new Konva.Group({
-        x: 10,
-        y: 10,
+        x: 50,
+        y: 50,
         width: NODE_WIDTH,
         height: NODE_HEIGHT,
         draggable: true,
     });
 
-    group.on('dblclick', nodeDblClickHandler(shared, textNode));
     group.on('click', nodeClickHandler(shared));
     group.on('dragmove', nodeGroupDragmoveHandler(shared));
     group.on('dragstart', function () {
@@ -71,6 +70,8 @@ function nodeClickHandler(shared) {
 
         let arrow = generateArrow(shared, this, arrowStartx, arrowStarty, arrowStartx, arrowStarty - 20);
 
+
+
         shared.arrowLayer.add(arrow);
         shared.arrowLayer.draw();
     }
@@ -78,8 +79,20 @@ function nodeClickHandler(shared) {
 
 
 export function addNewRect(shared) {
-    shared.countNodes++;
     var newRect = createNode(shared);
+
+    let duration = generationDurationLbl(shared, newRect);
+    duration.attrs.x = 50;
+    duration.attrs.y = 0;
+
+    newRect.on('dblclick', nodeDblClickHandler(shared, duration));
+
+
     shared.layer.add(newRect);
+    shared.durationLayer.add(duration);
+
     shared.layer.draw()
+    shared.durationLayer.draw();
+    shared.countNodes++;
+
 }

@@ -3,9 +3,11 @@ export default class SharedUtils {
         this.stage;
         this.layer;
         this.arrowLayer;
+        this.durationLayer;
         this.countNodes = 0;
         this.nodeConnections = [];
         this.arrowWeights = [];
+        this.durations = [];
     }
 }
 

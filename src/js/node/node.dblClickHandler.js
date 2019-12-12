@@ -4,9 +4,9 @@ import { createInputField } from '../helper';
 export function nodeDblClickHandler(shared, textNode) {
     return function () {
         textNode.hide();
-        shared.layer.draw();
+        shared.durationLayer.draw();
 
-        let input = createInputField(shared, textNode.attrs.text, this.attrs.x, this.attrs.y);
+        let input = createInputField(shared, textNode.attrs.text, textNode.attrs.x, textNode.attrs.y);
 
         input.addEventListener('keydown', function (e) {
             // hide on enter
@@ -14,7 +14,7 @@ export function nodeDblClickHandler(shared, textNode) {
                 textNode.text(input.value);
                 textNode.parent.attrs.name = input.value;
                 textNode.show();
-                shared.layer.draw();
+                shared.durationLayer.draw();
                 document.body.removeChild(input);
             }
         });
