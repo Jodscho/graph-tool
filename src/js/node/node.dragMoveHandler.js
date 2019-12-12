@@ -11,11 +11,11 @@ export function nodeGroupDragmoveHandler(shared) {
         // move all durations
 
         let durationId = shared.durations.filter(e => e.nodeId == this._id)[0].durationId;
-        let lbl = shared.durationLayer.find('Text').filter(e => e._id == durationId)[0];
+        let lbl = shared.layer.find('Text').filter(e => e._id == durationId)[0];
         
         lbl.setAbsolutePosition({ x: this.attrs.x, y: this.attrs.y - 50});
 
-        shared.durationLayer.batchDraw();
+        shared.layer.batchDraw();
 
         // update all arrows that start from here
         let startArrows = shared.nodeConnections
@@ -34,8 +34,6 @@ export function nodeGroupDragmoveHandler(shared) {
         if (startArrows.length == 0 && endArrows.length == 0) {
             return
         }
-
-
 
         startArrows.forEach(id => {
             let arrow = shared.arrowLayer.find('Arrow').filter(e => e._id == id)[0];

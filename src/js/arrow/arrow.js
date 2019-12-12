@@ -1,42 +1,41 @@
 import { arrowDragMoveHandler} from './arrow.dragMoveHandler';
 import { arrowDragEndhandler } from './arrow.dragEndHandler';
 import {arrowDblClickHandler} from './arrow.dblClickHandler';
+import { createLabel, createText, createArrow } from '../konva-objects/objects';
 
-import Konva from 'konva';
+export function generateArrow(shared, rect) {
 
-// Blueprint for any arrow that is created
-var BASIC_ARROW = {
-    pointerLength: 10,
-    pointerWidth: 10,
-    fill: 'black',
-    stroke: 'black',
-    strokeWidth: 2,
-    draggable: true
-};
+    const startx = rect.attrs.x + rect.attrs.width / 2;
+    const starty = rect.attrs.y + 50;
 
-
-export function generateArrow(shared, rect, startx, starty, endx, endy) {
-
-    BASIC_ARROW.points = [startx, starty, endx, endy];
-
-    let arrow = new Konva.Arrow(BASIC_ARROW);
-
-    shared.arrowWeights.push({ arrowId: arrow._id, weight: { id: undefined, number: undefined } });
+    const arrow = createArrow([startx, starty, startx, starty + 30]);
 
     arrow.on('dragmove', arrowDragMoveHandler(shared, arrow, rect));
     arrow.on('dragend', arrowDragEndhandler(shared, arrow, rect));
     arrow.on('dblclick', arrowDblClickHandler(shared, arrow));
-    arrow.on('click', function(e){
-        if (e.evt.button === 2) {
-            let len = this.attrs.points.length;
-            this.attrs.points.push(this.attrs.points[len-2]);
-            this.attrs.points.push(this.attrs.points[len - 1]);
-        }
+    arrow.on('click', arrowClickHandler());
+
+    shared.arrowWeights.push({
+        arrowId: arrow._id,
+        weight: {
+            id: undefined,
+            number: undefined 
+        } 
     });
 
-    return arrow;
+    shared.arrowLayer.add(arrow);
+    shared.arrowLayer.draw();
 }
 
+function arrowClickHandler(){
+    return function(e){
+        if (e.evt.button === 2) {
+            let len = this.attrs.points.length;
+            this.attrs.points.push(this.attrs.points[len - 2]);
+            this.attrs.points.push(this.attrs.points[len - 1]);
+        }
+    }
+}
 
 export function moveWeightLblOfArrow(shared, arrow, differenceX, differenceY) {
     let arrowWeight = shared.arrowWeights.find(e => e.arrowId == arrow._id);
@@ -47,34 +46,7 @@ export function moveWeightLblOfArrow(shared, arrow, differenceX, differenceY) {
 }
 
 export function createWeightLbl(text, x, y) {
-    let simpleLabel = new Konva.Label({
-        x: x,
-        y: y,
-        width: 50,
-        height: 50,
-        opacity: 1,
-        draggable: true
-    });
-
-    // simpleLabel.add(
-    //     new Konva.Tag({
-    //         fill: 'white'
-    //     })
-    // );
-
-    simpleLabel.add(
-        new Konva.Text({
-            text: text,
-            fontFamily: 'Calibri',
-            fontSize: 18,
-            width: 50,
-            height: 50,
-            fill: 'black',
-            align: 'center',
-            verticalAlign: 'middle'
-        })
-    );
-
-
-    return simpleLabel;
+    let lbl = createLabel(x, y);
+    lbl.add(createText(text));
+    return lbl;
 }

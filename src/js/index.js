@@ -1,6 +1,6 @@
 import Konva from 'konva';
 import SharedUtils from './shared';
-import { addNewRect } from './node/node'
+import { createNode } from './node/node'
 import 'bulma/css/bulma.css'
 
 const shared = new SharedUtils();
@@ -22,12 +22,11 @@ function main() {
         e.evt.preventDefault();
     });
 
+
     shared.layer = new Konva.Layer();
     shared.arrowLayer = new Konva.Layer();
-    shared.durationLayer = new Konva.Layer();
 
     shared.stage.add(shared.layer);
-    shared.stage.add(shared.durationLayer);
     shared.stage.add(shared.arrowLayer);
 
 }
@@ -36,7 +35,7 @@ function main() {
 main();
 
 window.addNode = function(){
-    addNewRect(shared);
+    createNode(shared);
 }
 
 window.clearStage = function () {
