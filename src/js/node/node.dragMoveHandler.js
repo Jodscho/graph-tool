@@ -16,19 +16,10 @@ export function nodeGroupDragmoveHandler(shared) {
         lbl.setAbsolutePosition({ x: this.attrs.x, y: this.attrs.y - 50});
 
         shared.layer.batchDraw();
-
-        // update all arrows that start from here
-        let startArrows = shared.nodeConnections
-            .map(c => c.connectedTo)
-            .filter(a => a.length != 0)
-            .flat()
-            .filter(a => a.nodeId == this._id)
-            .map(a => a.arrowId);
-
-        // update all arrows that end here
-        let endArrows = shared.nodeConnections
-            .filter(e => e.name == this._id)[0].connectedTo
-            .map(c => c.arrowId);
+        
+        // find arrows
+        let startArrows = shared.findAllArrowsThatStartFromNode(this._id);
+        let endArrows = shared.findAllArrowsThatEndAtNode(this._id);
 
         // do nothing if there are no arrows
         if (startArrows.length == 0 && endArrows.length == 0) {

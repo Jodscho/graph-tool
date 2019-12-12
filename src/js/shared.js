@@ -9,6 +9,24 @@ export default class SharedUtils {
         this.arrowWeights = [];
         this.durations = [];
     }
+
+
+    findAllArrowsThatStartFromNode(nodeId){
+        return this.nodeConnections
+            .map(c => c.connectedTo)
+            .filter(a => a.length != 0)
+            .flat()
+            .filter(a => a.nodeId == nodeId)
+            .map(a => a.arrowId);
+    }
+
+    findAllArrowsThatEndAtNode(nodeId){
+        return this.nodeConnections
+            .filter(e => e.name == nodeId)[0].connectedTo
+            .map(c => c.arrowId);
+    }
+
+
 }
 
 export const NODE_WIDTH = 50;
