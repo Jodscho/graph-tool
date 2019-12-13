@@ -13,7 +13,7 @@ export function generateArrow(graph, rect) {
     arrow.on('dragmove', arrowDragMoveHandler(graph, arrow, rect));
     arrow.on('dragend', arrowDragEndhandler(graph, arrow, rect));
     arrow.on('dblclick', arrowDblClickHandler(graph, arrow));
-    arrow.on('click', arrowClickHandler());
+    arrow.on('click', arrowClickHandler(graph));
 
     graph.addWeight(undefined, undefined, arrow._id);
     graph.addConnection(rect._id, undefined, arrow._id);
@@ -22,12 +22,17 @@ export function generateArrow(graph, rect) {
     graph.arrowLayer.draw();
 }
 
-function arrowClickHandler(){
+function arrowClickHandler(graph){
     return function(e){
         if (e.evt.button === 2) {
             let len = this.attrs.points.length;
             this.attrs.points.push(this.attrs.points[len - 2]);
             this.attrs.points.push(this.attrs.points[len - 1]);
+        }
+        if (window.event.altKey){
+            graph.removeArrowFromGraph(this._id);
+            graph.arrowLayer.draw();
+            graph.layer.draw();
         }
     }
 }
