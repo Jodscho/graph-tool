@@ -1,5 +1,5 @@
-import { NODE_WIDTH } from '../shared';
-import SharedUtils from '../shared';
+import { NODE_WIDTH } from '../graph';
+import Graph from '../graph';
 import Konva from 'konva';
 
 
@@ -9,59 +9,38 @@ import Konva from 'konva';
  * The position where at the node the arrow is attached depends on the place in the rectangle where
  * the arrow was dropped.
  * 
- * @param {SharedUtils} shared The global shared object.
+ * @param {Graph} graph The global graph object.
  * @param {Konva.Arrow} arrow The arrow instance.
  * @param {Konva.Group} startNode The starting point of the arrow.
  */
-export function arrowDragEndhandler(shared, arrow, startNode) {
+export function arrowDragEndhandler(graph, arrow, startNode) {
     return function () {
-        let pos = shared.stage.getPointerPosition();
-        let shape = shared.layer.getIntersection(pos);
+        let pos = graph.stage.getPointerPosition();
+        let shape = graph.layer.getIntersection(pos);
 
         // there is no intersection between an arrow and a node
         if (!shape || shape.parent.getClassName() == 'Layer') {
-            // check if the connection to a node has to be canceld
-            let allConnectedTo = shared.nodeConnections
-                .map(c => c.connectedTo)
-                .filter(a => a.length != 0);
-            let correctOne = allConnectedTo
-            .filter(array => array.filter(a => a.arrowId == this._id).length == 1)[0];
 
-            // arrow has been moved but does not have a connection
-            if (correctOne == undefined) { return; }
-
-            // undo connection
-            let index =  correctOne.findIndex(e => e.arrowId == this._id);
-            correctOne.splice(index, 1);
-
+            // arrow has been move away from node -> cancel connection
+            if (graph.checkArrowEndpoint()){
+                graph.removeArrowEndpoint(arrow._id);
+            }
             return;
         }
         
         let nodeGroup = shape.parent;
 
-        let foundNodes = shared.nodeConnections
-            .filter(n => n.name == nodeGroup._id);
+        if (graph.isNodeEndpointForArrow(arrow._id, nodeGroup._id)){
+           // there already is a endpoint -> redraw arrow at inital position
+            let startx = startNode.attrs.x + startNode.attrs.width / 2;
+            let starty = startNode.attrs.y;
 
-
-        let connections = foundNodes[0].connectedTo.filter(n => n.nodeId == startNode._id);
-
-        // check if there already is a connection
-        if (connections.length > 0) {
-
-            // check if the user wants to redraw arrow to node
-            if (connections[0].arrowId != arrow._id) {
-                // place new arrow at start of node
-                let startx = startNode.attrs.x + startNode.attrs.width / 2;
-                let starty = startNode.attrs.y;
-
-                arrow.setPoints([startx, starty, startx, starty - 20]);
-                shared.arrowLayer.draw();
-                console.warn("node is already connected");
-                return;
-            }
-        } else {
-            // create the connection
-            foundNodes[0].connectedTo.push({ nodeId: startNode._id, arrowId: arrow._id });
+            arrow.setPoints([startx, starty, startx, starty - 20]);
+            graph.arrowLayer.draw();
+            return;
+        }  else {
+            // there is no endpoint -> create new endpoint
+            graph.addEndpoint(arrow._id, nodeGroup._id);
         }
 
         // look where the arrow should be attached, depending on the position of the drop 
@@ -115,6 +94,6 @@ export function arrowDragEndhandler(shared, arrow, startNode) {
         let len = arrow.attrs.points.length;
         arrow.attrs.points[len - 2] = end1;
         arrow.attrs.points[len - 1] = end2;
-        shared.arrowLayer.batchDraw();
+        graph.arrowLayer.batchDraw();
     }
 }

@@ -1,43 +1,45 @@
 import { createWeightLbl } from './arrow'
 import { createInputField } from '../helper';
-import SharedUtils from '../shared';
+import Graph from '../graph';
 import Konva from 'konva';
 
 /**
  * A dblclick on an arrow opens an input field where the weight for the arrow can either be changed
  * or initalized.
  * 
- * @param {SharedUtils} shared The global shared instance.
+ * @param {Graph} graph The global graph instance.
  * @param {Konva.Arrow} arrow The arrow instance.
  */
-export function arrowDblClickHandler(shared, arrow) {
+export function arrowDblClickHandler(graph, arrow) {
     return function () {
 
-        if (shared.openInputFields.findIndex(e => e == arrow._id) != -1) {
+
+        if (graph.checkOpenInputFields(arrow._id)) {
             return;
         }
 
 
-        let arrowWeight = shared.arrowWeights.find(a => a.arrowId == arrow._id);
+        let arrowWeight = graph.getWeightOfArrow(arrow._id);
         let lbl;
         let pos;
 
-        if (arrowWeight.weight.id != undefined) {
-            lbl = shared.arrowLayer.find('Label').filter(e => e._id == arrowWeight.weight.id)[0];
+        // id was already set, hide existing label
+        if (arrowWeight.id) {
+            lbl = graph.findKonvaLabelById(arrowWeight.id);
             pos = lbl.getAbsolutePosition();
             lbl.hide();
-            shared.arrowLayer.draw();
+            graph.arrowLayer.draw();
         }
 
+        // get the pointer position for the weight input, otherwise use the label
         if (!pos){
-            pos = shared.stage.getPointerPosition();
+            pos = graph.stage.getPointerPosition();
         }
 
 
-        let val = (arrowWeight.weight.id) ? arrowWeight.weight.number : '';
-        let input = createInputField(shared, val, pos.x, pos.y + 35);
-        shared.openInputFields.push(arrow._id);
-
+        let val = (arrowWeight.id) ? arrowWeight.number : '';
+        let input = createInputField(graph, val, pos.x, pos.y);
+        graph.addOpenInputField(arrow._id);
 
         input.addEventListener('keydown', function (e) {
             // hide on enter
@@ -45,13 +47,14 @@ export function arrowDblClickHandler(shared, arrow) {
                 return;
             }
 
-            if (arrowWeight.weight.id == undefined) {
+            if (arrowWeight.id == undefined) {
                 // create new label
                 lbl = createWeightLbl(input.value, pos.x, pos.y);
                 lbl.getText().text = input.value;
-                shared.arrowLayer.add(lbl);
+                graph.layer.add(lbl);
                 // add entry
-                arrowWeight.weight = { id: lbl._id, number: input.value };
+                arrowWeight.id = lbl._id;
+                arrowWeight.number = input.value;
             } else {
                 let textNode = lbl.getText();
 
@@ -75,14 +78,11 @@ export function arrowDblClickHandler(shared, arrow) {
 
                 lbl.show();
                 // change entry
-                arrowWeight.weight.number = input.value;
+                arrowWeight.number = input.value;
             }
-            let i = shared.openInputFields.findIndex(e => e == arrow._id);
-            if (i != -1) {
-                shared.openInputFields.splice(i, 1);
-            }
+            graph.removeFromOpenInputFields(arrow._id);
 
-            shared.arrowLayer.draw();
+            graph.layer.draw();
             document.body.removeChild(input);
 
         });

@@ -3,30 +3,23 @@ import { arrowDragEndhandler } from './arrow.dragEndHandler';
 import {arrowDblClickHandler} from './arrow.dblClickHandler';
 import { createLabel, createText, createArrow } from '../konva-objects/objects';
 
-export function generateArrow(shared, rect) {
+export function generateArrow(graph, rect) {
 
     const startx = rect.attrs.x + rect.attrs.width / 2;
     const starty = rect.attrs.y + 50;
 
     const arrow = createArrow([startx, starty, startx, starty + 30]);
 
-    arrow.on('dragmove', arrowDragMoveHandler(shared, arrow, rect));
-    arrow.on('dragend', arrowDragEndhandler(shared, arrow, rect));
-    arrow.on('dblclick', arrowDblClickHandler(shared, arrow));
+    arrow.on('dragmove', arrowDragMoveHandler(graph, arrow, rect));
+    arrow.on('dragend', arrowDragEndhandler(graph, arrow, rect));
+    arrow.on('dblclick', arrowDblClickHandler(graph, arrow));
     arrow.on('click', arrowClickHandler());
 
-    shared.arrowWeights.push({
-        arrowId: arrow._id,
-        weight: {
-            id: undefined,
-            number: undefined 
-        } 
-    });
+    graph.addWeight(undefined, undefined, arrow._id);
+    graph.addConnection(rect._id, undefined, arrow._id);
 
-    shared.arrowStartNodes.push({ nodeId: rect._id, arrowId: arrow._id});
-
-    shared.arrowLayer.add(arrow);
-    shared.arrowLayer.draw();
+    graph.arrowLayer.add(arrow);
+    graph.arrowLayer.draw();
 }
 
 function arrowClickHandler(){
@@ -39,11 +32,14 @@ function arrowClickHandler(){
     }
 }
 
-export function moveWeightLblOfArrow(shared, arrow, differenceX, differenceY) {
-    let arrowWeight = shared.arrowWeights.find(e => e.arrowId == arrow._id);
-    if (arrowWeight.weight.id != undefined) {
-        let lbl = shared.arrowLayer.find('Label').filter(e => e._id == arrowWeight.weight.id)[0];
-        lbl.setAbsolutePosition({ x: lbl.attrs.x + differenceX, y: lbl.attrs.y + differenceY });
+export function moveWeightLblOfArrow(graph, arrow, differenceX, differenceY) {
+    let arrowWeight = graph.getWeightOfArrow(arrow._id);
+    if (arrowWeight.id) {
+        let lbl = graph.findKonvaLabelById(arrowWeight.id);
+        lbl.setAbsolutePosition({ 
+            x: lbl.attrs.x + differenceX, 
+            y: lbl.attrs.y + differenceY 
+        });
     }
 }
 

@@ -1,17 +1,19 @@
 import { createInputField } from '../helper';
 
 
-export function nodeDblClickHandler(shared, textNode) {
+export function nodeDblClickHandler(graph, textNode) {
     return function () {
-        if (shared.openInputFields.findIndex(e => e == textNode._id) != -1){
+
+        if(graph.checkOpenInputFields(textNode._id)){
             return;
         }
 
-        textNode.hide();
-        shared.layer.draw();
 
-        let input = createInputField(shared, textNode.attrs.text, textNode.attrs.x, textNode.attrs.y + 35);
-        shared.openInputFields.push(textNode._id);
+        textNode.hide();
+        graph.layer.draw();
+
+        let input = createInputField(graph, textNode.attrs.text, textNode.attrs.x, textNode.attrs.y);
+        graph.addOpenInputField(textNode._id);
 
         input.addEventListener('keydown', function (e) {
             // hide on enter
@@ -19,12 +21,9 @@ export function nodeDblClickHandler(shared, textNode) {
                 textNode.text(input.value);
                 textNode.parent.attrs.name = input.value;
                 textNode.show();
-                shared.layer.draw();
+                graph.layer.draw();
                 document.body.removeChild(input);
-                let i = shared.openInputFields.findIndex(e => e == textNode._id);
-                if (i != -1) {  
-                    shared.openInputFields.splice(i, 1);
-                }
+                graph.removeFromOpenInputFields(textNode._id);
             }
         });
     }

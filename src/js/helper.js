@@ -1,8 +1,8 @@
-import { NODE_WIDTH, NODE_HEIGHT } from './shared';
+import { NODE_WIDTH, NODE_HEIGHT } from './graph';
 
 
-export function createInputField(shared, value, x, y) {
-    let containerRect = shared.stage.container().getBoundingClientRect();
+export function createInputField(graph, value, x, y) {
+    let containerRect = graph.stage.container().getBoundingClientRect();
     let input = document.createElement("input");
     document.body.appendChild(input);
     input.style.position = 'absolute';
