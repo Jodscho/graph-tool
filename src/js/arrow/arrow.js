@@ -10,10 +10,7 @@ export function generateArrow(graph, rect) {
 
     const arrow = createArrow([startx, starty, startx, starty + 30]);
 
-    arrow.on('dragmove', arrowDragMoveHandler(graph, arrow, rect));
-    arrow.on('dragend', arrowDragEndhandler(graph, arrow, rect));
-    arrow.on('dblclick', arrowDblClickHandler(graph, arrow));
-    arrow.on('click', arrowClickHandler(graph));
+    initalizeArrowHandlers(graph, arrow, rect);
 
     graph.addWeight(undefined, undefined, arrow._id);
     graph.addConnection(rect._id, undefined, arrow._id);
@@ -21,6 +18,15 @@ export function generateArrow(graph, rect) {
     graph.arrowLayer.add(arrow);
     graph.arrowLayer.draw();
 }
+
+
+export function initalizeArrowHandlers(graph, arrow, rect){
+    arrow.on('dragmove', arrowDragMoveHandler(graph, arrow, rect));
+    arrow.on('dragend', arrowDragEndhandler(graph, arrow, rect));
+    arrow.on('dblclick', arrowDblClickHandler(graph, arrow));
+    arrow.on('click', arrowClickHandler(graph));
+}
+
 
 function arrowClickHandler(graph){
     return function(e){

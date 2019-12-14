@@ -16,11 +16,7 @@ export function createNode(graph) {
     group.add(textNode);
 
     // add event handlers
-    group.on('click', nodeClickHandler(graph));
-    group.on('dragmove', nodeGroupDragmoveHandler(graph));
-    group.on('dragstart', dragStartHandler());
-    group.on('dragend', dragEndHandler());
-    group.on('dblclick', nodeDblClickHandler(graph, duration));
+    initalizeNodeHandlers(graph, group, duration);
 
     graph.addDuration(duration._id, '0', group._id);
 
@@ -33,6 +29,13 @@ export function createNode(graph) {
     graph.countNodes++;
 }
 
+export function initalizeNodeHandlers(graph, group, duration){
+    group.on('click', nodeClickHandler(graph));
+    group.on('dragmove', nodeGroupDragmoveHandler(graph));
+    group.on('dragstart', dragStartHandler());
+    group.on('dragend', dragEndHandler());
+    group.on('dblclick', nodeDblClickHandler(graph, duration));
+}
 
 function dragStartHandler(){
     return function(){
