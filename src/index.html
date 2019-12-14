@@ -13,27 +13,80 @@
 </head>
 
 <body>
+    <div class="main">
+    <div class="tile is-ancestor">
+        <div class="tile is-parent is-2 is-danger">
+            <div class="tile is-child panel graph-panel is-info">
+                <p class="panel-heading">Help</p>
+                <div class="panel-block content">
 
-
-    <div class="panel graph-panel is-info">
-        <p class="panel-heading">graph-tool</p>
-        <div class="panel-block top-menu">
-            <button class="button is-info is-outlined" onclick="addNode()">
-                <span class="icon">
-                    <i class="fas fa-plus fa-lg"></i>
-                </span>
-            </button>
-
-            <button class="button is-info is-outlined" onclick="clearStage()">
-                <span class="icon">
-                    <i class="fas fa-trash-alt fa-lg"></i>
-                </span>
-            </button>
+                    <table class="table is-striped">
+                        <tr>
+                            <th>Action</th>
+                            <th>Shortcut</th>
+                        </tr>
+                        <tr>
+                            <td>Create Node</td>
+                            <td>click plus sign</td>
+                        </tr>
+                        <tr>
+                            <td>Create Arrow</td>
+                            <td>ctrl + click on node</td>
+                        </tr>
+                        <tr>
+                            <td>Create Arrow Weight</td>
+                            <td>double click on arrow</td>
+                        </tr>
+                        <tr>
+                            <td>Change Node Duration</td>
+                            <td>double click on node</td>
+                        </tr>
+                        <tr>
+                            <td>Delete Node</td>
+                            <td>alt + click on node</td>
+                        </tr>
+                        <tr>
+                            <td>Delete Arrow</td>
+                            <td>alt + click on arrow</td>
+                        </tr>
+        </table>
+ 
+                </div>
+            
+            </div>
         </div>
-        <div id="container" class="panel-block"></div>
-
+            <div class="tile is-parent is-10">
+                <div id="canvas-panel" class="tile is-child panel graph-panel is-info">
+                    <p class="panel-heading">graph-tool</p>
+                    <div class="panel-block top-menu">
+                        <button class="button is-info is-outlined" onclick="addNode()">
+                            <span class="icon">
+                                <i class="fas fa-plus fa-lg"></i>
+                            </span>
+                        </button>
+                
+                        <button class="button is-info is-outlined" onclick="clearStage()">
+                            <span class="icon">
+                                <i class="fas fa-trash-alt fa-lg"></i>
+                            </span>
+                        </button>
+                        <button class="button is-info is-outlined" onclick="saveGraph()">
+                            <span class="icon">
+                                <i class="fas fa-download"></i>
+                            </span>
+                        </button>
+                    <label class="button is-info is-outlined upload-btn">
+                        <input id="uploadFile" type="file" />
+                                                        <i class="fas fa-upload"></i>
+                    </label>
+                    </div>
+                    <div id="canvas-container">
+                    <div id="container" class="panel-block"></div>
+                    </div>
+                </div>
+                </div>
     </div>
-
+</div>
     <script src="./js/index.js"></script>
 </body>
 
