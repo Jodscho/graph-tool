@@ -8,6 +8,9 @@ export function nodeDblClickHandler(graph, textNode) {
             return;
         }
 
+        let durationLbl = graph.getDurationById(textNode._id);
+
+
 
         textNode.hide();
         graph.layer.draw();
@@ -20,6 +23,7 @@ export function nodeDblClickHandler(graph, textNode) {
             if (e.keyCode === 13) {
                 textNode.text(input.value);
                 textNode.parent.attrs.name = input.value;
+                durationLbl.number = input.value;
                 textNode.show();
                 graph.layer.draw();
                 document.body.removeChild(input);

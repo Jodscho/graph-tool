@@ -70,6 +70,10 @@ export default class Graph {
         return this.weights.find(wei => wei.arrow == arrowId);
     }
 
+    getDurationById(id){
+        return this.durations.find(dur => dur.id == id);
+    }
+
     getDurationOfNode(nodeId){
         return this.durations.find(dur => dur.node == nodeId);
     }

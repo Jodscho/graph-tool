@@ -56,6 +56,7 @@ export function arrowDragMoveHandler(graph, arrow, nodeGroup) {
         arrow.attrs.x = 0;
         arrow.attrs.y = 0;
         graph.arrowLayer.batchDraw();
+        graph.layer.batchDraw();
     }
 }
 
