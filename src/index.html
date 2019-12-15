@@ -14,49 +14,71 @@
 
 <body>
     <div class="main">
-    <div class="tile is-ancestor">
-        <div class="tile is-parent is-2 is-danger">
-            <div class="tile is-child panel graph-panel is-info">
-                <p class="panel-heading">Help</p>
-                <div class="panel-block content">
+        <div class="tile is-ancestor">
+            <div class="tile is-parent is-3 is-danger">
+                <div class="tile is-child panel is-info">
+                    <p class="panel-heading">Manual</p>
+                    <div class="panel-block">
+                        <table class="table is-striped info-table">
+                            <tr>
+                                <th colspan="2">General</th>
+                            </tr>
+                            <tr>
+                                <td>Clear</td>
+                                <td><i class="fas fa-trash-alt fa-lg"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Run</td>
+                                <td><i class="fas fa-play fa-lg"></i></td>
+                            </tr>
+                            <tr>
+                                <th colspan="2">Graph</th>
+                            </tr>
+                            <tr>
+                                <td>Download</td>
+                                <td><i class="fas fa-download"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Upload</td>
+                                <td><i class="fas fa-upload"></i></td>
+                            </tr>
+                            <tr>
+                                <th colspan="2">Node</th>
+                            </tr>
+                            <tr>
+                                <td>Create</td>
+                                <td><i class="fas fa-plus fa-lg"></i></td>
+                            </tr>
+                            <tr>
+                                <td>Duration</td>
+                                <td><span class="pc-font">dbl click</span> on node</td>
+                            </tr>
+                            <tr>
+                                <td>Delete</td>
+                                <td><span class="pc-font">alt + click</span> on node</td>
+                            </tr>
+                            <tr>
+                                <th colspan="2">Arrow</th>
+                            </tr>
+                            <tr>
+                                <td>Create</td>
+                                <td><span class="pc-font">ctrl + click</span> on node</td>
+                            </tr>
+                            <tr>
+                                <td>Weight</td>
+                                <td><span class="pc-font">dbl click</span> on arrow</td>
+                            </tr>
+                            <tr>
+                                <td>Delete</td>
+                                <td><span class="pc-font">alt + click</span> on arrow</td>
+                            </tr>
+                        </table>
+                    </div>
 
-                    <table class="table is-striped">
-                        <tr>
-                            <th>Action</th>
-                            <th>Shortcut</th>
-                        </tr>
-                        <tr>
-                            <td>Create Node</td>
-                            <td>click plus sign</td>
-                        </tr>
-                        <tr>
-                            <td>Create Arrow</td>
-                            <td>ctrl + click on node</td>
-                        </tr>
-                        <tr>
-                            <td>Create Arrow Weight</td>
-                            <td>double click on arrow</td>
-                        </tr>
-                        <tr>
-                            <td>Change Node Duration</td>
-                            <td>double click on node</td>
-                        </tr>
-                        <tr>
-                            <td>Delete Node</td>
-                            <td>alt + click on node</td>
-                        </tr>
-                        <tr>
-                            <td>Delete Arrow</td>
-                            <td>alt + click on arrow</td>
-                        </tr>
-        </table>
- 
                 </div>
-            
             </div>
-        </div>
-            <div class="tile is-parent is-10">
-                <div id="canvas-panel" class="tile is-child panel graph-panel is-info">
+            <div class="tile is-parent is-vertical is-9">
+                <div id="graph-panel" class="tile is-child panel is-info">
                     <p class="panel-heading">graph-tool</p>
                     <div class="panel-block top-menu">
                         <button class="button is-info is-outlined" onclick="addNode()">
@@ -64,29 +86,43 @@
                                 <i class="fas fa-plus fa-lg"></i>
                             </span>
                         </button>
-                
+
                         <button class="button is-info is-outlined" onclick="clearStage()">
                             <span class="icon">
                                 <i class="fas fa-trash-alt fa-lg"></i>
                             </span>
                         </button>
+                        <button class="button is-info is-outlined" onclick="runAlgorithm()">
+                            <span class="icon">
+                                <i class="fas fa-play fa-play"></i>
+                            </span>
+                        </button>
+
+                        <span class="fill-space"></span>
                         <button class="button is-info is-outlined" onclick="saveGraph()">
                             <span class="icon">
                                 <i class="fas fa-download"></i>
                             </span>
                         </button>
-                    <label class="button is-info is-outlined upload-btn">
-                        <input id="uploadFile" type="file" />
-                                                        <i class="fas fa-upload"></i>
-                    </label>
+                        <label class="button is-info is-outlined upload-btn">
+                            <input id="uploadFile" type="file" />
+                            <i class="fas fa-upload"></i>
+                        </label>
+
                     </div>
-                    <div id="canvas-container">
-                    <div id="container" class="panel-block"></div>
+                    <div id="canvas-panel-block" class="panel-block">
+                        <div id="container"></div>
                     </div>
                 </div>
+                <div id="result-tile" class="tile is-child panel is-info">
+                    <p class="panel-heading">result</p>
+                    <div class="panel-block">
+                        <table id="result-table" class="table is-striped"></table>
+                    </div>
                 </div>
+            </div>
+        </div>
     </div>
-</div>
     <script src="./js/index.js"></script>
 </body>
 

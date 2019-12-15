@@ -1,19 +1,20 @@
+// @import '../../node_modules/bulma/sass/utilities/initial-variables.sass';
+
 * {
     margin: 0px;
     padding:0px;
 }
 
-
+@media only screen and (min-width: 1600px) {
+    .main{
+        padding-left:100px;
+        padding-right:100px;
+    }
+} 
 
 input[type="file"] {
     display: none;
 }
-// .custom-file-upload {
-//     border: 1px solid #ccc;
-//     display: inline-block;
-//     padding: 6px 12px;
-//     cursor: pointer;
-// }
 
 .upload-btn {
     width: 0px;
@@ -21,52 +22,55 @@ input[type="file"] {
     padding:19px !important;
 }
 
+.fill-space{
+    flex: 1 1 auto;
+}
 
 .main{
     margin:20px;
-}
-
-.is-ancestor{
-    max-height: 700px;
-}
-
-
-.graph-panel{
-    // width:100%;
 }
 
 .top-menu button, .upload-btn  {
     margin:10px; 
 }
 
-#container {
-    // padding:0px;
-    // max-width: 500px;
-    min-width: 600px;
-    height: 600px;
+#graph-panel {
+    max-height: 640px;
 }
 
-
-#canvas-panel {
-    overflow: hidden;
-}
-
-#canvas-container {
-    height: 500px;
+#canvas-panel-block {
     overflow: scroll;
+    max-height: 500px;
+}
 
-
+#container {
+    width: 100%;
+    min-height: 700px;
+    margin-top:250px;
 }
 
 .nodeInput{
     text-align: center;
     background-color: transparent;
     border:none;
-    /* border:1px solid red; */
 }
-
-
 
 .nodeInput:focus{
     outline: none;
+}
+
+#result-table {
+    width: 100%;
+}
+
+.pc-font {
+    font-family: 'Courier New', Courier, monospace;
+    background: rgb(224, 224, 224);
+    // background: hsl(204, 86%, 53%);
+    // color:white;
+}
+
+
+.info-table {
+    width: 100%;
 }
