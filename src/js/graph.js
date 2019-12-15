@@ -162,6 +162,10 @@ export default class Graph {
 
     }
 
+    findNeigboursOfNode(id){
+        return this.connections.filter(con => con.start == id).map(con => con.end);
+    }
+
     findKonvaLabelById(id){
         return this.layer.find('Label').filter(e => e._id == id)[0];
     }

@@ -4,6 +4,7 @@ import { createNode } from './node/node'
 import { createArrow, createRec, createText, createNodeGroup, createLabel } from './konva-objects/objects';
 import { initalizeArrowHandlers } from './arrow/arrow';
 import { initalizeNodeHandlers } from './node/node';
+import { createTable} from './algorithms/alg'
 
 import 'bulma/css/bulma.css'
 
@@ -11,6 +12,7 @@ var graph;
 
 function main() {
     graph = new Graph();
+    document.getElementById('result-tile').style.display = 'none';
 
     var width = document.getElementById('container').clientWidth;
     var height = document.getElementById('container').clientHeight;
@@ -46,6 +48,40 @@ window.addNode = function(){
 window.clearStage = function () {
     main();
 }
+
+window.runAlgorithm = function() {
+    let out = "";
+    let htmlResultTable = document.getElementById('result-table');
+    let table = createTable(graph);
+
+    out += "<tr>";
+    out += "<th>i</th>"
+
+    for (let i = 0; i < table.ES.length; i++) {
+        out += `<th>${i}</th>`;
+    }
+    out += "</tr>";
+
+    out += rowForTable("ES", table.ES);
+    out += rowForTable("EC", table.EC);
+    out += rowForTable("LS", table.LS);
+    out += rowForTable("LC", table.LC);
+
+    htmlResultTable.innerHTML = out;
+    document.getElementById('result-tile').style.display = 'block';
+}
+
+function rowForTable(val, row){
+    let out = "";
+    out += "<tr>";
+    out += `<td>${val}</td>`;
+    for (let i = 0; i < row.length; i++) {
+        out += `<td>${row[i]}</td>`;
+    }
+    out += "</tr>";
+    return out;
+}
+
 
 window.saveGraph = function() {
 
@@ -105,6 +141,7 @@ window.saveGraph = function() {
     let obj = {
         arrows,
         groups,
+        numNodes: graph.countNodes,
         connections: graph.connections,
         weights: graph.weights,
         durations: graph.durations
@@ -134,6 +171,7 @@ document.getElementById('uploadFile').onchange = function () {
         graph.connections = obj.connections;
         graph.weights = obj.weights;
         graph.durations = obj.durations;
+        graph.countNodes = obj.numNodes;
 
         obj.groups.forEach(gr => {
             let group = createNodeGroup();

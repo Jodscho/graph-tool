@@ -12,6 +12,8 @@ export function createNode(graph) {
     let group = createNodeGroup();
     let duration = createText('0', 50, 0);
 
+    group._id = graph.countNodes;
+
     group.add(rec);
     group.add(textNode);
 
