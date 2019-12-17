@@ -28,7 +28,7 @@ export function arrowDblClickHandler(graph, arrow) {
             lbl = graph.findKonvaLabelById(arrowWeight.id);
             pos = lbl.getAbsolutePosition();
             lbl.hide();
-            graph.arrowLayer.draw();
+            graph.layer.draw();
         }
 
         // get the pointer position for the weight input, otherwise use the label
