@@ -4,6 +4,11 @@ import { createInputField } from '../helper';
 export function nodeDblClickHandler(graph, textNode) {
     return function () {
 
+        if (textNode.attrs.fill != 'black') {
+            textNode.attrs.fill = 'black';
+        }
+
+
         if(graph.checkOpenInputFields(textNode._id)){
             return;
         }

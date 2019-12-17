@@ -162,6 +162,10 @@ export default class Graph {
 
     }
 
+    findPredecessorOfNode(id){
+        return this.connections.filter(con => con.end == id).map(con => con.start);
+    }
+
     findNeigboursOfNode(id){
         return this.connections.filter(con => con.start == id).map(con => con.end);
     }

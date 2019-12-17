@@ -3,6 +3,37 @@ import { arrowDblClickHandler } from '../arrow/arrow.dblClickHandler';
 
 
 
+export function checkValidityOfGraph(graph){
+
+    // get weights that are not numbers or undefined
+    console.log(graph);
+
+    let arrowWeightsNotNumbers =
+    graph.weights
+    .filter(wei => isNaN(parseInt(wei.number)))
+    .map(wei => wei.arrow);
+
+    // every arrow needs to be connected
+    let unconnectedArrow =
+    graph.connections
+    .filter(con => con.end == undefined)
+    .map(con => con.arrow);
+
+    // every duration that is not a number
+    let durationsNotNumbers =
+        graph.durations
+            .filter(dur => isNaN(parseInt(dur.number)))
+            .map(dur => dur.id);
+
+    return {
+        arrows: arrowWeightsNotNumbers.concat(unconnectedArrow),
+        nodes: durationsNotNumbers
+    };
+
+}
+
+
+
 function createDistancematrixfromConnections(graph){
 
     let distanceMatrix = [];
@@ -81,6 +112,9 @@ export function createTable(graph){
     let EC = [];
     let LS = [];
     let LC = [];
+    let TF = [];
+    let EFF = [];
+    let LFF = [];
 
     for (let i = 0; i < distanceMatrix.length; i++) {
         let val = labelCorrectingAlgorithm(graph, distanceMatrix, 0)[i];
@@ -89,9 +123,24 @@ export function createTable(graph){
         let valL = labelCorrectingAlgorithm(graph, distanceMatrix, i)[0] * -1;
         LS.push(valL);
         LC.push(valL + parseInt(graph.getDurationOfNode(i).number));
-        
+        TF.push(LS[i] - ES[i]);
     }
 
-    return { ES, EC, LS, LC };
+
+    for (let i = 0; i < distanceMatrix.length; i++) {
+        // EFF
+        let all = graph
+            .findNeigboursOfNode(i)
+            .map(node => ES[node] - distanceMatrix[i][node]);
+        EFF.push(Math.min(...all) - ES[i]);
+
+        // LFFi
+        all = graph
+            .findPredecessorOfNode(i)
+            .map(node => LS[node] + distanceMatrix[node][i])
+        LFF.push(LS[i] - Math.max(...all)); 
+    }
+
+    return { ES, EC, LS, LC, TF, EFF, LFF};
 
 }

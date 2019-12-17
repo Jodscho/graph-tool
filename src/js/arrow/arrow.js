@@ -25,6 +25,17 @@ export function initalizeArrowHandlers(graph, arrow, rect){
     arrow.on('dragend', arrowDragEndhandler(graph, arrow, rect));
     arrow.on('dblclick', arrowDblClickHandler(graph, arrow));
     arrow.on('click', arrowClickHandler(graph));
+    arrow.on('mouseover', arrowMouseOverEvent(graph));
+}
+
+function arrowMouseOverEvent(graph){
+    return function () {
+        if (this.attrs.stroke != 'black'){
+            this.attrs.stroke = 'black';
+            this.attrs.fill = 'black';
+            graph.arrowLayer.draw();
+        }
+    }
 }
 
 
@@ -40,6 +51,8 @@ function arrowClickHandler(graph){
             graph.arrowLayer.draw();
             graph.layer.draw();
         }
+
+
     }
 }
 

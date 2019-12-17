@@ -61,6 +61,12 @@ input[type="file"] {
 
 #result-table {
     width: 100%;
+    td:first-child, th:first-child{
+        font-family: 'Cambria';
+        font-size: 18px;
+        font-style: italic;
+        // font-weight: bold;
+    }
 }
 
 .pc-font {
@@ -69,6 +75,8 @@ input[type="file"] {
     // background: hsl(204, 86%, 53%);
     // color:white;
 }
+
+
 
 
 .info-table {

@@ -4,7 +4,7 @@ import { createNode } from './node/node'
 import { createArrow, createRec, createText, createNodeGroup, createLabel } from './konva-objects/objects';
 import { initalizeArrowHandlers } from './arrow/arrow';
 import { initalizeNodeHandlers } from './node/node';
-import { createTable} from './algorithms/alg'
+import { createTable, checkValidityOfGraph} from './algorithms/alg'
 
 import 'bulma/css/bulma.css'
 
@@ -33,6 +33,34 @@ function main() {
     graph.layer = new Konva.Layer();
     graph.arrowLayer = new Konva.Layer();
 
+    // var complexText = new Konva.Text({
+    //     x: width/2 - 150,
+    //     y: 60,
+    //     text:
+    //         "Create a graph by adding notes and connecting them.",
+    //     fontSize: 18,
+    //     fontFamily: 'Calibri',
+    //     fill: ' #1d72aa ',
+    //     width: 300,
+    //     padding: 20,
+    //     align: 'center'
+    // });
+
+    // var rect = new Konva.Rect({
+    //     x: width/2 - 150,
+    //     y: 60,
+    //     stroke: ' hsl(204, 86%, 53%) ',
+    //     strokeWidth: 5,
+    //     fill: '#eef3fc',
+    //     width: 300,
+    //     height: complexText.height(),
+    //     cornerRadius: 10
+    // });
+
+    // graph.layer.add(rect);
+    // graph.layer.add(complexText);
+
+
     graph.stage.add(graph.layer);
     graph.stage.add(graph.arrowLayer);
 
@@ -49,7 +77,33 @@ window.clearStage = function () {
     main();
 }
 
+window.closeModal = function () {
+    document.getElementById('error-modal').classList.remove('is-active');
+}
+
 window.runAlgorithm = function() {
+
+    let errorObj = checkValidityOfGraph(graph);
+    let invalidArrows = errorObj.arrows;
+    let invalidDurations = errorObj.nodes;
+
+    if (invalidArrows.length > 0 || invalidDurations.length > 0){
+        invalidArrows.forEach(arrow => {
+            graph.findKonvaArrowById(arrow).attrs.stroke = 'red';
+            graph.findKonvaArrowById(arrow).attrs.fill = 'red';
+        });
+
+        invalidDurations.forEach(id => {
+            graph.findKonvaTextById(id).attrs.fill = 'red';
+        });
+
+        document.getElementById('error-modal').classList.add('is-active');
+        graph.arrowLayer.draw();
+        graph.layer.draw();
+        return;
+    }
+
+
     let out = "";
     let htmlResultTable = document.getElementById('result-table');
     let table = createTable(graph);
@@ -62,24 +116,21 @@ window.runAlgorithm = function() {
     }
     out += "</tr>";
 
-    out += rowForTable("ES", table.ES);
-    out += rowForTable("EC", table.EC);
-    out += rowForTable("LS", table.LS);
-    out += rowForTable("LC", table.LC);
+    Object.keys(table).forEach(function (key) {
+
+
+        let temp = "";
+        temp += "<tr>";
+        temp += `<td>${key}<sub>i</sub></td>`;
+        for (let i = 0; i < table[key].length; i++) {
+            temp += `<td>${table[key][i]}</td>`;
+        }
+        temp += "</tr>";
+        out += temp;
+    });
 
     htmlResultTable.innerHTML = out;
     document.getElementById('result-tile').style.display = 'block';
-}
-
-function rowForTable(val, row){
-    let out = "";
-    out += "<tr>";
-    out += `<td>${val}</td>`;
-    for (let i = 0; i < row.length; i++) {
-        out += `<td>${row[i]}</td>`;
-    }
-    out += "</tr>";
-    return out;
 }
 
 
