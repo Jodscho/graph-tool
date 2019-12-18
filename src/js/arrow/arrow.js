@@ -1,7 +1,7 @@
 import { arrowDragMoveHandler} from './arrow.dragMoveHandler';
 import { arrowDragEndhandler } from './arrow.dragEndHandler';
 import {arrowDblClickHandler} from './arrow.dblClickHandler';
-import { createLabel, createText, createArrow } from '../konva-objects/objects';
+import { createLabel, createText, createArrow } from '../graph/graph.konva.objects';
 
 export function generateArrow(graph, rect) {
 

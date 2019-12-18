@@ -1,13 +1,7 @@
-import { graph } from '../graph';
-import { arrowDblClickHandler } from '../arrow/arrow.dblClickHandler';
-
-
 
 export function checkValidityOfGraph(graph){
 
     // get weights that are not numbers or undefined
-    console.log(graph);
-
     let arrowWeightsNotNumbers =
     graph.weights
     .filter(wei => isNaN(parseInt(wei.number)))

@@ -1,5 +1,5 @@
-import { NODE_WIDTH } from '../graph';
-import Graph from '../graph';
+import { NODE_WIDTH } from '../graph/graph';
+import Graph from '../graph/graph';
 import Konva from 'konva';
 
 

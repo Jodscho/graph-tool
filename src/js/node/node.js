@@ -1,7 +1,7 @@
 import { generateArrow } from '../arrow/arrow';
 import { nodeDblClickHandler} from './node.dblClickHandler'
 import { nodeGroupDragmoveHandler} from './node.dragMoveHandler';
-import { createRec, createText, createNodeGroup } from '../konva-objects/objects';
+import { createRec, createText, createNodeGroup } from '../graph/graph.konva.objects';
 
 
 export function createNode(graph) {

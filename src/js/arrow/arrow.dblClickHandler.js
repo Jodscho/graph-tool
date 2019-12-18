@@ -1,6 +1,6 @@
 import { createWeightLbl } from './arrow'
 import { createInputField } from '../helper';
-import Graph from '../graph';
+import Graph from '../graph/graph';
 import Konva from 'konva';
 
 /**

@@ -1,5 +1,5 @@
 import { moveWeightLblOfArrow} from './arrow'
-import Graph from '../graph';
+import Graph from '../graph/graph';
 import Konva from 'konva';
 
 /**

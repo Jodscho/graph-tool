@@ -1,5 +1,4 @@
-import { NODE_WIDTH, NODE_HEIGHT } from './graph';
-
+import { NODE_WIDTH, NODE_HEIGHT } from './graph/graph';
 
 export function createInputField(graph, value, x, y) {
     let containerRect = graph.stage.container().getBoundingClientRect();
