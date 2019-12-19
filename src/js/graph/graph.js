@@ -7,6 +7,7 @@ export default class Graph {
         this.arrowLayer;
         this.countNodes = 0;
         this.openInputFields = []
+        this.deletedNodes = [];
 
 
         // connections: [
@@ -160,6 +161,8 @@ export default class Graph {
 
         this.findKonvoNodeGroupById(nodeId).destroy();
 
+        this.deletedNodes.push(nodeId);
+
     }
 
     findPredecessorOfNode(id){
@@ -198,6 +201,17 @@ export default class Graph {
         let i = this.openInputFields.findIndex(e => e == id);
         if (i != -1) {  
             this.openInputFields.splice(i, 1);
+        }
+    }
+
+    getUniqueNodeId(){
+
+        let id = this.deletedNodes.shift();
+
+        if (id != undefined){
+            return id;
+        } else {
+            return this.countNodes;
         }
     }
 

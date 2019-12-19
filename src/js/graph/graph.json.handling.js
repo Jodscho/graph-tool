@@ -62,7 +62,8 @@ export function saveGraphAsJSON(graph) {
         numNodes: graph.countNodes,
         connections: graph.connections,
         weights: graph.weights,
-        durations: graph.durations
+        durations: graph.durations,
+        deletedNodes: graph.deletedNodes
     };
 
 }
@@ -75,6 +76,7 @@ export function createGraphFromJSON(graph, result) {
     graph.weights = obj.weights;
     graph.durations = obj.durations;
     graph.countNodes = obj.numNodes;
+    graph.deletedNodes = obj.deletedNodes;
 
     obj.groups.forEach(gr => {
         let group = createNodeGroup();

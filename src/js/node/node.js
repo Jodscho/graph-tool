@@ -6,13 +6,15 @@ import { createRec, createText, createNodeGroup } from '../graph/graph.konva.obj
 
 export function createNode(graph) {
 
+    let id = graph.getUniqueNodeId();
+
     // create objects
     let rec = createRec();
-    let textNode = createText(graph.countNodes);
+    let textNode = createText(id);
     let group = createNodeGroup();
     let duration = createText('0', 50, 0);
 
-    group._id = graph.countNodes;
+    group._id = id;
 
     group.add(rec);
     group.add(textNode);
