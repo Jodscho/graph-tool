@@ -1,4 +1,3 @@
-// @import '../../node_modules/bulma/sass/utilities/initial-variables.sass';
 
 * {
     margin: 0px;
@@ -35,17 +34,20 @@ input[type="file"] {
 }
 
 #graph-panel {
-    max-height: 640px;
+    max-height: 700px;
+    max-width: 1245px;
 }
+
 
 #canvas-panel-block {
     overflow: scroll;
-    max-height: 500px;
+    max-height: 550px;
+    max-width: 1245px;
 }
 
 #container {
-    width: 100%;
-    min-height: 700px;
+    width: 1245px;
+    height: 700px;
     margin-top:250px;
 }
 

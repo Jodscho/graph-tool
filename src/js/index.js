@@ -4,6 +4,7 @@ import { createNode } from './node/node'
 import { createGraphFromJSON, saveGraphAsJSON } from './graph/graph.json.handling';
 import { runAlgorithm } from './algorithms/execute.alg';
 
+import '../../node_modules/@fortawesome/fontawesome-free/js/all.js';
 import 'bulma/css/bulma.css'
 
 var graph;

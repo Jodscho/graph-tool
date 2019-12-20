@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/main.scss">
     </style>
-    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <title>Document</title>
 
 </head>
@@ -66,11 +65,15 @@
                             </tr>
                             <tr>
                                 <td>Weight</td>
-                                <td><span class="pc-font">dbl click</span> on arrow</td>
+                                <td><span class="pc-font">dbl click</span> on arrow tip</td>
                             </tr>
                             <tr>
                                 <td>Delete</td>
-                                <td><span class="pc-font">alt + click</span> on arrow</td>
+                                <td><span class="pc-font">alt + click</span> on arrow tip</td>
+                            </tr>
+                            <tr>
+                                <td>Waypoint</td>
+                                <td><span class="pc-font">rightclick</span> on arrow tip</td>
                             </tr>
                         </table>
                     </div>
@@ -133,7 +136,11 @@
                 <button onclick="closeModal()" class="delete" aria-label="delete"></button>
             </div>
             <div class="message-body">
-               Please check the red arrows. Every arrow needs to be connected to a node and have a Weight.
+                <p><strong>Please check your Graph!</strong></p>
+                <ul>
+                    <li>Every arrow needs to be connected and have a weight.</li>
+                    <li>Every weight and duration needs to be a number.</li>
+                </ul>
             </div>
         </article>
 
